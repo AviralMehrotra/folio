@@ -31,7 +31,7 @@ export const metadata = {
     title: "Aviral Mehrotra | Full Stack Developer",
     description:
       "Passionate Full Stack Developer crafting innovative solutions with modern technologies.",
-    url: "",
+    url: "https://aviralmehrotra.pages.dev",
     siteName: "Aviral Mehrotra Portfolio",
     images: [
       {
