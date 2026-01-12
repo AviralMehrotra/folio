@@ -31,7 +31,7 @@ export const metadata = {
     title: "Aviral Mehrotra | Full Stack Developer",
     description:
       "Passionate Full Stack Developer crafting innovative solutions with modern technologies.",
-    url: "https://aviral-mehrotra.vercel.app",
+    url: "",
     siteName: "Aviral Mehrotra Portfolio",
     images: [
       {
