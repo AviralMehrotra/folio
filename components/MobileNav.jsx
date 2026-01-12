@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "./ui/sheet";
 import { CiMenuFries } from "react-icons/ci";
 import { usePathname } from "next/navigation";
 
@@ -36,6 +36,7 @@ const MobileNav = () => {
         <CiMenuFries className="text-[32px] text-accent" />
       </SheetTrigger>
       <SheetContent className="flex flex-col">
+        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
         <div className="mt-32 mb-40 text-center text-2xl">
           <Link href="/">
             <h1 className="text-4xl font-semibold">
