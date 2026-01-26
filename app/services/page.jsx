@@ -1,7 +1,7 @@
 "use client";
 
 import { BsArrowDownRight } from "react-icons/bs";
-import { easeIn, motion } from "motion/react";
+import { motion } from "motion/react";
 import Link from "next/link";
 
 const services = [
@@ -58,7 +58,7 @@ const Services = () => {
                     {service.id}
                   </div>
                   <Link
-                    href={service.href}
+                    href={service.href || "#"}
                     className="w-17.5 h-17.5 rounded-full bg-white group-hover:bg-accent transition-all duration-500 flex justify-center items-center hover:-rotate-45"
                   >
                     <BsArrowDownRight className="text-primary text-3xl" />

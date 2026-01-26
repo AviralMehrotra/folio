@@ -1,14 +1,40 @@
+"use client";
+
 import Photo from "@/components/Photo";
 import Socials from "@/components/Socials";
 import Stats from "@/components/Stats";
 import { Button } from "@/components/ui/button";
 import { FiDownload } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { client } from "@/lib/sanity";
 
 const Home = () => {
+  const [resumeUrl, setResumeUrl] = useState(
+    "/assets/resume/Aviral Mehrotra Full Stack Developer.pdf",
+  );
+
+  useEffect(() => {
+    const fetchResume = async () => {
+      try {
+        const query = `*[_type == "resume"][0]{
+          "url": file.asset->url
+        }`;
+        const data = await client.fetch(query);
+        if (data?.url) {
+          setResumeUrl(data.url);
+        }
+      } catch (error) {
+        console.error("Error fetching resume:", error);
+      }
+    };
+
+    fetchResume();
+  }, []);
+
   return (
     <section className="h-full">
       <div className="container mx-auto h-full">
-        <div className="flex flex-col xl:flex-row items-center justify-between xl:pt-8 xl:pb-24">
+        <div className="flex flex-col xl:flex-row items-center justify-between xl:pt-8 xl:pb-18">
           <div className="text-center xl:text-left order-2 xl:order-0">
             <span className="text-xl">Full Stack Developer</span>
             <h1 className="h1 mb-6">
@@ -21,7 +47,9 @@ const Home = () => {
             </p>
             <div className="flex flex-col xl:flex-row items-center gap-8">
               <a
-                href="/assets/resume/Aviral Mehrotra Full Stack Developer.pdf"
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 download="Aviral_Mehrotra_Resume.pdf"
               >
                 <Button

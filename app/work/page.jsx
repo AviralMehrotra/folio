@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { BsArrowUpRight, BsGithub } from "react-icons/bs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Tooltip,
@@ -14,67 +14,53 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Image from "next/image";
 import WorkSliderButtons from "@/components/WorkSliderButtons";
-
-const projects = [
-  {
-    num: "01",
-    category: "fullstack",
-    title: "Tasker",
-    description:
-      "Feature-rich project management web application with task organization, priority tags, due dates, status tracking, and real-time dashboard insights. Fully responsive design with secure JWT authentication.",
-    stack: [
-      { name: "React.js" },
-      { name: "Node.js" },
-      { name: "Express.js" },
-      { name: "MongoDB" },
-      { name: "TailwindCSS" },
-    ],
-    image: "/assets/work/tasker.png",
-    live: "https://tasker-pm.vercel.app/",
-    github: "https://github.com/AviralMehrotra/Tasker",
-  },
-  {
-    num: "02",
-    category: "fullstack",
-    title: "Stannum",
-    description:
-      "E-Commerce platform with comprehensive shopping features, product management, and seamless user experience built with modern web technologies.",
-    stack: [
-      { name: "React.js" },
-      { name: "Express.js" },
-      { name: "Node.js" },
-      { name: "MongoDB" },
-      { name: "TailwindCSS" },
-    ],
-    image: "/assets/work/stannum.png",
-    live: "https://stannum.vercel.app/",
-    github: "https://github.com/AviralMehrotra/Stannum",
-  },
-  {
-    num: "03",
-    category: "fullstack",
-    title: "ComicVault",
-    description:
-      "Responsive comic book collection tracker with real-time tracking, issue-level progress monitoring, GitHub-inspired activity heatmaps, and personalized reading analytics for 1000+ series from ComicVine API.",
-    stack: [
-      { name: "React.js" },
-      { name: "TailwindCSS" },
-      { name: "Node.js" },
-      { name: "Express.js" },
-      { name: "Supabase" },
-    ],
-    image: "/assets/work/comicvault.png",
-    live: "https://comicvault-cyan.vercel.app/",
-    github: "https://github.com/AviralMehrotra/ComicVault",
-  },
-];
+import { client, urlFor } from "@/lib/sanity";
 
 const Work = () => {
-  const [project, setProject] = useState(projects[0]);
+  const [projects, setProjects] = useState([]);
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const query = `*[_type == "project"] | order(num asc)`;
+        const data = await client.fetch(query);
+        setProjects(data);
+        if (data.length > 0) {
+          setProject(data[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
   const handleSlideChange = (swiper) => {
     const currentIndex = swiper.activeIndex;
     setProject(projects[currentIndex]);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <div className="text-accent text-2xl">Loading projects...</div>
+      </div>
+    );
+  }
+
+  if (projects.length === 0) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <div className="text-white/60 text-xl">No projects found in CMS.</div>
+      </div>
+    );
+  }
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -99,7 +85,7 @@ const Work = () => {
               </h4>
               <p className="text-white/60">{project.description}</p>
               <ul className="flex gap-4 flex-wrap">
-                {project.stack.map((item, index) => (
+                {project.stack?.map((item, index) => (
                   <li className="text-xl text-accent" key={index}>
                     {item.name}
                     {index !== project.stack.length - 1 && ","}
@@ -108,31 +94,35 @@ const Work = () => {
               </ul>
               <div className="border border-white/20"></div>
               <div className="flex items-center gap-4">
-                <Link href={project.github}>
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
-                        <BsGithub className="text-white text-3xl group-hover:text-accent" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Github Repository</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </Link>
+                {project.github && (
+                  <Link href={project.github}>
+                    <TooltipProvider delayDuration={100}>
+                      <Tooltip>
+                        <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
+                          <BsGithub className="text-white text-3xl group-hover:text-accent" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Github Repository</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </Link>
+                )}
 
-                <Link href={project.live}>
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
-                        <BsArrowUpRight className="text-white text-3xl group-hover:text-accent" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Live Project</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </Link>
+                {project.live && (
+                  <Link href={project.live}>
+                    <TooltipProvider delayDuration={100}>
+                      <Tooltip>
+                        <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
+                          <BsArrowUpRight className="text-white text-3xl group-hover:text-accent" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Live Project</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -149,12 +139,14 @@ const Work = () => {
                     <div className="h-[280px] sm:h-[360px] xl:h-[460px] relative group flex justify-center items-center">
                       <div className="absolute top-0 bottom-0 w-full h-full bg-black/10 z-10"></div>
                       <div className="relative w-full h-full">
-                        <Image
-                          src={project.image}
-                          fill
-                          className="object-cover xl:object-contain"
-                          alt=""
-                        />
+                        {proj.image && (
+                          <Image
+                            src={urlFor(proj.image).url()}
+                            fill
+                            className="object-cover xl:object-contain"
+                            alt={proj.title}
+                          />
+                        )}
                       </div>
                     </div>
                   </SwiperSlide>

@@ -21,7 +21,7 @@ import {
 const about = {
   title: "About Me",
   description:
-    "A passionate full-stack developer with a strong foundation in building scalable, user-centric web applications. With hands-on experience across three internships and multiple personal projects, I specialize in React.js, Node.js, Express.js, and database technologies like MongoDB and PostgreSQL.",
+    "A passionate full-stack developer with a strong foundation in building scalable, user-centric web applications. I specialize in React.js, Node.js, Express.js, and database technologies like MongoDB and PostgreSQL.",
   info: [
     {
       fieldName: "Name",
@@ -138,7 +138,7 @@ const Resume = () => {
         opacity: 1,
         transition: { delay: 2.4, duration: 0.4, ease: "easeIn" },
       }}
-      className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
+      className="min-h-[80vh] flex items-start justify-center py-12 xl:py-0"
     >
       <div className="container mx-auto px-4">
         <Tabs
@@ -154,7 +154,7 @@ const Resume = () => {
           <div className="min-h-17.5 w-full ">
             <TabsContent value="experience" className="w-full">
               <div className="flex flex-col gap-[30px]">
-                <div className="flex flex-col gap-[30px] text-center xl:text-left min-h-[240px]">
+                <div className="flex flex-col gap-[30px] text-center xl:text-left     ">
                   <h3 className="text-4xl font-bold">{experience.title}</h3>
                   <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
                     {experience.description}
@@ -185,7 +185,7 @@ const Resume = () => {
             </TabsContent>
             <TabsContent value="education" className="w-full">
               <div className="flex flex-col gap-[30px]">
-                <div className="flex flex-col gap-[30px] text-center xl:text-left min-h-[240px]">
+                <div className="flex flex-col gap-[30px] text-center xl:text-left">
                   <h3 className="text-4xl font-bold">{education.title}</h3>
                   <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
                     {education.description}
@@ -216,7 +216,7 @@ const Resume = () => {
             </TabsContent>
             <TabsContent value="skills" className="w-full h-full">
               <div className="flex flex-col gap-[30px]">
-                <div className="flex flex-col gap-[30px] text-center xl:text-left min-h-[240px]">
+                <div className="flex flex-col gap-[30px] text-center xl:text-left     ">
                   <h3 className="text-4xl font-bold">{skills.title}</h3>
                   <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
                     {skills.description}
@@ -251,7 +251,7 @@ const Resume = () => {
               className="w-full text-center xl:text-left"
             >
               <div className="flex flex-col gap-[30px]">
-                <div className="flex flex-col gap-[30px] text-center xl:text-left min-h-[240px]">
+                <div className="flex flex-col gap-[30px] text-center xl:text-left     ">
                   <h3 className="text-4xl font-bold">{about.title}</h3>
                   <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">
                     {about.description}
